@@ -2,20 +2,21 @@ package com.iamsdt.dragger2demo
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
-import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
 import android.view.View
 import com.iamsdt.dragger2demo.adapter.MyAdapter
 import com.iamsdt.dragger2demo.data.pojo.ResultsItem
+import com.iamsdt.dragger2demo.dragger.DaggerMainActivityComponent
+import com.iamsdt.dragger2demo.dragger.MainActivityComponent
+import com.iamsdt.dragger2demo.dragger.module.MainActivityModule
 import com.iamsdt.dragger2demo.utils.Utility
 import com.iamsdt.dragger2demo.viewModel.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
-import timber.log.Timber
 
-class MainActivity : AppCompatActivity(), MyAdapter.ClickListener {
+class MainActivity : AppCompatActivity(){
 
     private var mAdapter: MyAdapter? = null
 
@@ -40,9 +41,16 @@ class MainActivity : AppCompatActivity(), MyAdapter.ClickListener {
 
         mainRecyclerView.layoutManager = manager
 
-        mAdapter = MyAdapter(this, this)
+        val activityComponent: MainActivityComponent = DaggerMainActivityComponent.builder()
+                .mainActivityModule(MainActivityModule(this))
+                .myComponent(MyApplication().get(this).getComponent())
+                .build()
+
+        mAdapter = activityComponent.getAdapter
 
         mainRecyclerView.adapter = mAdapter
+
+        viewModel.setApi(activityComponent.getApiService)
 
         viewModel.getAllData()?.observe(this, Observer { allData ->
             if (allData != null && allData.isNotEmpty()) {
@@ -58,11 +66,5 @@ class MainActivity : AppCompatActivity(), MyAdapter.ClickListener {
             mainProgress.visibility = View.GONE
         }
 
-    }
-
-    override fun onItemClick(position: Int) {
-        val result = list!![position]
-        startActivity(Intent(this@MainActivity,DetailsActivity::class.java)
-                .putExtra(Intent.EXTRA_TEXT,result))
     }
 }

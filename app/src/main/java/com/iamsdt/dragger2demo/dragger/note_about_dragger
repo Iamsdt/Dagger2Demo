@@ -1,16 +1,17 @@
 
-//note
-    //scopes
-    /**
-     * DOn't use singletone anatotation in dragger
-     * it create a new instance in every time we call build
-     * use your own custom anataion scope**/
+//note of dragger
 
-    //Qualifers
-    /**
-     * If we need to network request from same server
-     * Dragger returns same retrofit
-     * so it failed
-     * that why we need to tell
-     * dragger to make a difference between them
-     * that why we use Quailifers*/
+//scopes
+/**
+* DOn't use singleton annotation in dagger
+* it create a new instance in every time we call build
+* use your own custom annotation scopes**/
+
+//Qualifiers
+/**
+* If we need to network request from same server
+* Dagger returns same retrofit
+* so it failed
+* that why we need to tell
+* dagger to make a difference between them
+* that why we use Qualifiers*/

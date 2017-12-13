@@ -1,16 +1,13 @@
 package com.iamsdt.dragger2demo.dragger.module
 
 import android.content.Context
-import com.iamsdt.dragger2demo.dragger.module.ContextModule
 import com.iamsdt.dragger2demo.dragger.scopes.ApiServiceScope
 import dagger.Module
 import dagger.Provides
 import okhttp3.Cache
-import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import java.io.File
 import java.util.concurrent.TimeUnit
-import javax.security.auth.login.LoginException
 
 /**
  * Created by Shudipto Trafder on 12/13/2017.

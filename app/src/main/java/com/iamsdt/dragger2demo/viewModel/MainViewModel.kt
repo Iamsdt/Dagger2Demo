@@ -5,6 +5,7 @@ import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.MutableLiveData
 import com.iamsdt.dragger2demo.BuildConfig
 import com.iamsdt.dragger2demo.MyApplication
+import com.iamsdt.dragger2demo.data.MovieApiService
 import com.iamsdt.dragger2demo.data.pojo.ResultsItem
 import com.iamsdt.dragger2demo.utils.Utility
 import retrofit2.Call
@@ -24,6 +25,9 @@ class MainViewModel(application: Application):AndroidViewModel(application){
 
     private var state = false
 
+    private var api:MovieApiService ?= null
+
+
     init {
         state = Utility.isNetworkAvailable(application.baseContext)
     }
@@ -40,12 +44,15 @@ class MainViewModel(application: Application):AndroidViewModel(application){
 
     private fun getListData(){
 
+        if (api == null){
+            return
+        }
+
         val executor = Executors.newSingleThreadExecutor()
         executor.submit({
-            val api = MyApplication().getApi()
-            val data = api?.getList(BuildConfig.MOVIE_API_KEY)
+            val data = api!!.getList(BuildConfig.MOVIE_API_KEY)
 
-            data?.enqueue(object :Callback<List<ResultsItem>>{
+            data.enqueue(object :Callback<List<ResultsItem>>{
                 override fun onResponse(call: Call<List<ResultsItem>>?, response: Response<List<ResultsItem>>?) {
                     if (response!!.isSuccessful){
                         val dataList = response.body()
@@ -60,6 +67,10 @@ class MainViewModel(application: Application):AndroidViewModel(application){
 
             })
         })
+    }
+
+    fun setApi(nApi:MovieApiService?){
+        api = nApi
     }
 
 }

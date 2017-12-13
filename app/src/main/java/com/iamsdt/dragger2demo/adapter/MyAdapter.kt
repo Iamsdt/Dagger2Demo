@@ -1,32 +1,40 @@
 package com.iamsdt.dragger2demo.adapter
 
 import android.content.Context
+import android.content.Intent
+import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.iamsdt.dragger2demo.MyApplication
+import android.widget.ImageView
+import com.iamsdt.dragger2demo.DetailsActivity
 import com.iamsdt.dragger2demo.R
 import com.iamsdt.dragger2demo.data.pojo.ResultsItem
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.main_list.view.*
 
-class MyAdapter constructor(context:Context,clickListener:ClickListener) :
+class MyAdapter(context:Context,private val picasso: Picasso?) :
         RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
 
-    var dataList:List<ResultsItem>? = null
-    var clickListener:ClickListener? = null
+    private var dataList:List<ResultsItem>? = null
 
-    var mContext:Context? = null
+    private var mContext:Context? = null
 
 
     init {
         mContext = context
-        this.clickListener = clickListener
     }
 
     override fun onBindViewHolder(viewHolder: MyViewHolder?, position: Int) {
         val model = dataList!![position]
-        viewHolder?.bindPoster(model)
+        val  posterPath = "http://image.tmdb.org/t/p/w185/${model.posterPath}}"
+        picasso?.load(posterPath)?.fit()!!.into(viewHolder?.imageView)
+
+        viewHolder?.cardView?.setOnClickListener({
+            mContext?.startActivity(Intent(mContext, DetailsActivity::class.java)
+                    .putExtra(Intent.EXTRA_TEXT, model))
+        })
     }
 
     override fun getItemCount(): Int {
@@ -49,27 +57,10 @@ class MyAdapter constructor(context:Context,clickListener:ClickListener) :
         }
     }
 
-    interface ClickListener{
-        fun onItemClick(position:Int)
-    }
+    inner class MyViewHolder(itemView: View) :
+            RecyclerView.ViewHolder(itemView){
 
-    inner class MyViewHolder internal constructor(itemView: View) :
-            RecyclerView.ViewHolder(itemView), View.OnClickListener {
-
-        private val cardView = itemView.mainListCard
-
-        init {
-            cardView.setOnClickListener(this)
-        }
-
-        fun bindPoster(model: ResultsItem){
-            val  posterPath = "http://image.tmdb.org/t/p/w185/${model.posterPath}}"
-
-            MyApplication().picasso()?.load(posterPath)?.fit()!!.into(itemView.mainListImageView)
-        }
-
-        override fun onClick(v: View) {
-            clickListener!!.onItemClick(adapterPosition)
-        }
+        val cardView: CardView = itemView.mainListCard
+        val imageView: ImageView = itemView.mainListImageView
     }
 }

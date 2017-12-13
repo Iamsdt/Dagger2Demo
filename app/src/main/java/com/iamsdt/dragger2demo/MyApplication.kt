@@ -1,5 +1,6 @@
 package com.iamsdt.dragger2demo
 
+import android.app.Activity
 import android.app.Application
 import com.iamsdt.dragger2demo.data.MovieApiService
 import com.iamsdt.dragger2demo.dragger.*
@@ -12,25 +13,25 @@ import timber.log.Timber
  * at 5:32 PM
  */
 
-class MyApplication : Application() {
+class MyApplication: Application() {
+
+    fun get(activity: Activity): MyApplication = activity.application as MyApplication
 
     private var picasso:Picasso ?= null
     private var apiService:MovieApiService ?= null
+    private var dagger:MyComponent ?= null
 
     override fun onCreate() {
         super.onCreate()
 
         Timber.plant(Timber.DebugTree())
 
-        val dragger = DaggerMyComponent.builder()
+        dagger = DaggerMyComponent.builder()
                 .contextModule(ContextModule(this))
                 .build()
 
-        picasso = dragger.getPicasso
-        apiService = dragger.getApiService
+        picasso = dagger?.getPicasso
+        apiService = dagger?.getApiService
     }
-
-    fun getApi() = apiService
-    fun picasso() = picasso
-
+    fun getComponent() = dagger
 }
