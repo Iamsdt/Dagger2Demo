@@ -16,11 +16,13 @@ class DetailsActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         val intent = intent
-        val result:ResultsItem = intent.getSerializableExtra(Intent.EXTRA_TEXT) as ResultsItem
+        val result:ResultsItem =
+                intent.getSerializableExtra(Intent.EXTRA_TEXT) as ResultsItem
 
         val  posterPath = "http://image.tmdb.org/t/p/w185/${result.posterPath}}"
 
-        MyApplication().picasso()?.load(posterPath)?.fit()?.into(details_imageView)
+        val component = MyApplication().get(this).getComponent()
+        component?.getPicasso?.load(posterPath)?.fit()?.into(details_imageView)
 
         details_title.text = result.title
         details_original_title.text = result.originalTitle

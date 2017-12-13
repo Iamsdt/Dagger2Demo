@@ -4,8 +4,8 @@ import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.MutableLiveData
 import com.iamsdt.dragger2demo.BuildConfig
-import com.iamsdt.dragger2demo.MyApplication
 import com.iamsdt.dragger2demo.data.MovieApiService
+import com.iamsdt.dragger2demo.data.pojo.Movies
 import com.iamsdt.dragger2demo.data.pojo.ResultsItem
 import com.iamsdt.dragger2demo.utils.Utility
 import retrofit2.Call
@@ -26,7 +26,6 @@ class MainViewModel(application: Application):AndroidViewModel(application){
     private var state = false
 
     private var api:MovieApiService ?= null
-
 
     init {
         state = Utility.isNetworkAvailable(application.baseContext)
@@ -52,16 +51,16 @@ class MainViewModel(application: Application):AndroidViewModel(application){
         executor.submit({
             val data = api!!.getList(BuildConfig.MOVIE_API_KEY)
 
-            data.enqueue(object :Callback<List<ResultsItem>>{
-                override fun onResponse(call: Call<List<ResultsItem>>?, response: Response<List<ResultsItem>>?) {
+            data.enqueue(object :Callback<Movies>{
+                override fun onResponse(call: Call<Movies>?, response: Response<Movies>?) {
                     if (response!!.isSuccessful){
-                        val dataList = response.body()
+                        val dataList = response.body()?.results
                         allList?.postValue(dataList)
                         Timber.i(dataList?.size.toString())
                     }
                 }
 
-                override fun onFailure(call: Call<List<ResultsItem>>?, t: Throwable?) {
+                override fun onFailure(call: Call<Movies>?, t: Throwable?) {
                     Timber.wtf(t,"data not found")
                 }
 
