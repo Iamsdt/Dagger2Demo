@@ -9,12 +9,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import com.iamsdt.dragger2demo.DetailsActivity
+import com.iamsdt.dragger2demo.MainActivity
 import com.iamsdt.dragger2demo.R
 import com.iamsdt.dragger2demo.data.pojo.ResultsItem
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.main_list.view.*
 
-class MyAdapter(context:Context,private val picasso: Picasso?) :
+class MyAdapter(context:MainActivity,private val picasso: Picasso?) :
         RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
 
     private var dataList:List<ResultsItem>? = null
@@ -28,9 +29,8 @@ class MyAdapter(context:Context,private val picasso: Picasso?) :
 
     override fun onBindViewHolder(viewHolder: MyViewHolder?, position: Int) {
         val model = dataList!![position]
-        val  posterPath = "http://image.tmdb.org/t/p/w185/${model.posterPath}}"
+        val  posterPath = "http://image.tmdb.org/t/p/w185/${model.posterPath}"
         picasso?.load(posterPath)?.fit()!!.into(viewHolder?.imageView)
-
         viewHolder?.cardView?.setOnClickListener({
             mContext?.startActivity(Intent(mContext, DetailsActivity::class.java)
                     .putExtra(Intent.EXTRA_TEXT, model))

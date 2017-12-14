@@ -1,10 +1,7 @@
 package com.iamsdt.dragger2demo.data
 
-import com.iamsdt.dragger2demo.MyApplication
 import com.iamsdt.dragger2demo.data.pojo.Movies
-import com.iamsdt.dragger2demo.data.pojo.ResultsItem
 import retrofit2.Call
-import retrofit2.Callback
 import retrofit2.http.GET
 import retrofit2.http.Query
 

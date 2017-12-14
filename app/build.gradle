@@ -23,6 +23,11 @@ android {
         }
     }
 
+    // Add for using latest experimental build of Android Extensions
+    androidExtensions {
+        experimental = true
+    }
+
     buildTypes.each {
         it.buildConfigField 'String', 'MOVIE_API_KEY', '"b095897ebe2b7aafa2ea36881f781f50";'
     }

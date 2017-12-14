@@ -1,6 +1,5 @@
 package com.iamsdt.dragger2demo.dragger.module
 
-import android.content.Context
 import com.iamsdt.dragger2demo.MainActivity
 import com.iamsdt.dragger2demo.adapter.MyAdapter
 import com.iamsdt.dragger2demo.dragger.scopes.ActivityScope
@@ -14,6 +13,7 @@ import dagger.Provides
  */
 @Module(includes = arrayOf(ContextModule::class))
 class MainActivityModule(private val activity:MainActivity){
+
     @Provides
     @ActivityScope
     fun getAdapter(picasso: Picasso):MyAdapter

@@ -24,4 +24,4 @@ data class ResultsItem(val overview: String = "",
                        val id: Int = 0,
                        val adult: Boolean = false,
                        @SerializedName("vote_count")
-                       val voteCount: Int = 0):Serializable
+                       val voteCount: Int = 0): Serializable

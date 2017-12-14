@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
 import android.view.View
 import com.iamsdt.dragger2demo.adapter.MyAdapter
+import com.iamsdt.dragger2demo.data.MovieApiService
 import com.iamsdt.dragger2demo.data.pojo.ResultsItem
 import com.iamsdt.dragger2demo.dragger.DaggerMainActivityComponent
 import com.iamsdt.dragger2demo.dragger.MainActivityComponent
@@ -15,10 +16,13 @@ import com.iamsdt.dragger2demo.utils.Utility
 import com.iamsdt.dragger2demo.viewModel.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
+import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(){
 
-    private var mAdapter: MyAdapter? = null
+    @Inject lateinit var mAdapter: MyAdapter
+
+    @Inject lateinit var apiService:MovieApiService
 
     private val viewModel by lazy {
         ViewModelProviders.of(this).get(MainViewModel::class.java)
@@ -46,16 +50,22 @@ class MainActivity : AppCompatActivity(){
                 .myComponent(MyApplication().get(this).getComponent())
                 .build()
 
-        mAdapter = activityComponent.getAdapter
+        activityComponent.mainActivity(this@MainActivity)
+
+        //don't need to initialize it
+        //it will injected
+        //mAdapter = activityComponent.getAdapter
 
         mainRecyclerView.adapter = mAdapter
 
-        viewModel.setApi(activityComponent.getApiService)
+        //don't need to initialize it
+        //it will injected
+        viewModel.setApi(apiService)
 
         viewModel.getAllData()?.observe(this, Observer { allData ->
             if (allData != null && allData.isNotEmpty()) {
                 mainProgress.visibility = View.GONE
-                mAdapter?.swapData(allData)
+                mAdapter.swapData(allData)
                 list = allData
             }
         })

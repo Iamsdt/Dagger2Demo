@@ -1,5 +1,6 @@
 package com.iamsdt.dragger2demo.dragger
 
+import com.iamsdt.dragger2demo.MainActivity
 import com.iamsdt.dragger2demo.adapter.MyAdapter
 import com.iamsdt.dragger2demo.data.MovieApiService
 import com.iamsdt.dragger2demo.dragger.module.MainActivityModule
@@ -17,6 +18,10 @@ import dagger.Provides
         dependencies = arrayOf(MyComponent::class))
 interface MainActivityComponent {
 
-    val getAdapter: MyAdapter
-    val getApiService: MovieApiService
+    //just comment out his
+    //I use inject
+//    val getAdapter: MyAdapter
+//    val getApiService: MovieApiService
+
+    fun mainActivity(mainActivity:MainActivity)
 }
