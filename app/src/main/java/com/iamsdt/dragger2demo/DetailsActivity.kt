@@ -8,6 +8,7 @@ import android.view.MenuItem
 import com.iamsdt.dragger2demo.data.pojo.ResultsItem
 import kotlinx.android.synthetic.main.activity_details.*
 import kotlinx.android.synthetic.main.fragment_details.*
+import timber.log.Timber
 
 class DetailsActivity : AppCompatActivity() {
 
@@ -36,6 +37,8 @@ class DetailsActivity : AppCompatActivity() {
         details_vote_count.text = "Vote count:${result.voteCount}"
 
         supportActionBar?.setDisplayShowHomeEnabled(true)
+
+        Timber.i(component?.getPicasso.toString())
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {

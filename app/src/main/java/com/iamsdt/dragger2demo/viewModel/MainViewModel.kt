@@ -70,6 +70,7 @@ class MainViewModel(application: Application):AndroidViewModel(application){
 
     fun setApi(nApi:MovieApiService?){
         api = nApi
+        Timber.i("New Data set")
     }
 
 }

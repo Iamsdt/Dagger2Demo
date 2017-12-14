@@ -14,6 +14,7 @@ import com.iamsdt.dragger2demo.R
 import com.iamsdt.dragger2demo.data.pojo.ResultsItem
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.main_list.view.*
+import timber.log.Timber
 
 class MyAdapter(context:MainActivity,private val picasso: Picasso?) :
         RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
@@ -35,6 +36,8 @@ class MyAdapter(context:MainActivity,private val picasso: Picasso?) :
             mContext?.startActivity(Intent(mContext, DetailsActivity::class.java)
                     .putExtra(Intent.EXTRA_TEXT, model))
         })
+
+        Timber.i(picasso.toString())
     }
 
     override fun getItemCount(): Int {

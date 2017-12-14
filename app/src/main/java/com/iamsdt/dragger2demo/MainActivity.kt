@@ -16,6 +16,7 @@ import com.iamsdt.dragger2demo.utils.Utility
 import com.iamsdt.dragger2demo.viewModel.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
+import timber.log.Timber
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(){
@@ -67,6 +68,7 @@ class MainActivity : AppCompatActivity(){
                 mainProgress.visibility = View.GONE
                 mAdapter.swapData(allData)
                 list = allData
+                Timber.w(allData.size.toString())
             }
         })
 
